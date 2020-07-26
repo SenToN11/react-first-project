@@ -43,7 +43,7 @@ class CommentApp extends React.Component {
   }
 
   addComment() {
-    const comment = this.state.allcomments;
+    const comment = [...this.state.allcomments];
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, "0");
     let mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -58,8 +58,13 @@ class CommentApp extends React.Component {
       date: today,
       button: false,
     });
-    localStorage.setItem("comment", JSON.stringify(this.state.allcomments));
-    this.setState({ comment, newName: "", newComment: "" });
+    console.log(comment);
+    localStorage.setItem("comment", JSON.stringify(comment));
+    this.setState({
+      comment,
+      newName: "",
+      newComment: "",
+    });
   }
   render() {
     return (
