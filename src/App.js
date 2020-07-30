@@ -37,13 +37,15 @@ class CommentApp extends React.Component {
   }
 
   removeComment(props) {
-    this.state.allcomments.splice(props, 1);
-    localStorage.setItem("comment", JSON.stringify(this.state.allcomments));
-    this.setState({ CommentApp: this.state.allcomments });
+    const allcomments = [...this.state.allcomments];
+    allcomments.splice(props, 1);
+    this.setState({ allcomments }, () =>
+      localStorage.setItem("comment", JSON.stringify(allcomments))
+    );
   }
 
   addComment() {
-    const comment = [...this.state.allcomments];
+    const allcomments = [...this.state.allcomments];
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, "0");
     let mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -52,19 +54,21 @@ class CommentApp extends React.Component {
     let min = today.getMinutes();
 
     today = hours + ":" + min + " " + mm + "." + dd + "." + yyyy;
-    comment.push({
+    allcomments.push({
       name: this.state.newName,
       comment: this.state.newComment,
       date: today,
       button: false,
     });
-    console.log(comment);
-    localStorage.setItem("comment", JSON.stringify(comment));
-    this.setState({
-      comment,
-      newName: "",
-      newComment: "",
-    });
+    console.log(allcomments);
+    this.setState(
+      {
+        allcomments,
+        newName: "",
+        newComment: "",
+      },
+      () => localStorage.setItem("comment", JSON.stringify(allcomments))
+    );
   }
   render() {
     return (
